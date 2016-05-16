@@ -34,6 +34,10 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
 
+bootRun {
+	addResources = true
+}
+
 task wrapper(type: Wrapper) {
 	gradleVersion = '2.3'
 }

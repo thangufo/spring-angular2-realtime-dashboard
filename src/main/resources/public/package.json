@@ -1,5 +1,5 @@
 {
-  "name": "angular2-quickstart",
+  "name": "spring-angular2-realtime-dashboard",
   "version": "1.0.0",
   "scripts": {
     "start": "tsc && concurrently \"npm run tsc:w\" \"npm run lite\" ",
@@ -14,22 +14,25 @@
     "@angular/common": "2.0.0-rc.1",
     "@angular/compiler": "2.0.0-rc.1",
     "@angular/core": "2.0.0-rc.1",
+    "@angular/http": "2.0.0-rc.1",
     "@angular/platform-browser": "2.0.0-rc.1",
     "@angular/platform-browser-dynamic": "2.0.0-rc.1",
     "@angular/router": "2.0.0-rc.1",
-    "@angular/http": "2.0.0-rc.1",
-
-    "systemjs": "0.19.27",
+    "angular2-in-memory-web-api": "0.0.7",
+    "bootstrap": "*",
     "es6-shim": "^0.35.0",
+    "ng2-bootstrap": "^1.0.16",
+    "plugin-typescript": "^4.0.15",
     "reflect-metadata": "^0.1.3",
     "rxjs": "5.0.0-beta.6",
-    "zone.js": "^0.6.12",
-    "bootstrap" : "*"
+    "stompjs": "^2.3.3",
+    "systemjs": "0.19.27",
+    "zone.js": "^0.6.12"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
     "lite-server": "^2.2.0",
     "typescript": "^1.8.10",
-    "typings":"^0.8.1"
+    "typings": "^0.8.1"
   }
 }
