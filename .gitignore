@@ -1,0 +1,7 @@
+/.nb-gradle/
+/src/main/resources/public/node_modules/
+/src/main/resources/public/typings/
+/.gradle/
+/.idea/
+/gradle/
+/build/
