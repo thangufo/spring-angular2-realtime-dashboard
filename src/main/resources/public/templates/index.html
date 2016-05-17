@@ -1,5 +1,5 @@
 <nav class="navbar navbar-inverse navbar-static-top">
-    <a class="navbar-brand" href="#">TAMALE Web Client</a>
+    <a class="navbar-brand" href="#">Spring Boot - AngularJS 2 - Websocket demo</a>
 </nav>
 <div class="container">
     <div class="panel panel-primary">
@@ -12,13 +12,13 @@
         
         <div class="panel-body">
             <ul class="list-group">
-                <li *ngFor="let poll of polls" class="list-group-item">
+                <a href="#" [ngClass]="{'active': currentPoll && poll.id == currentPoll.id}"
+                    *ngFor="let poll of polls" class="list-group-item"  (click)="showPoll(poll)">
                     {{ poll.name }}
-                    <a href="#" (click)="removePoll(poll.id)">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </a>
-                </li>
+                </a>
             </ul>
+            
+            <poll-form *ngIf="currentPoll" [poll]="currentPoll"></poll-form>
         </div> <!-- End of panel body -->
     </div>
 </div>

@@ -2,16 +2,20 @@ import {Component} from '@angular/core';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { Poll } from './domain/poll.domain';
+import { PollComponent } from './poll.component';
 
 declare var SockJS;
 declare var Stomp;
 
 @Component({
     selector: 'my-app',
-    templateUrl: 'templates/index.html'
+    templateUrl: 'templates/index.html',
+    directives: [PollComponent]
 })
 export class AppComponent {
     polls: Poll[];
+    currentPoll: Poll = null;
+    
     stompPollCallback = (message) => {
         this.polls = JSON.parse(message.body);
     };
@@ -52,5 +56,10 @@ export class AppComponent {
             err => {
             }
         );
+    }
+    
+    showPoll(poll : Poll) {
+        this.currentPoll = poll;
+        console.log("here");
     }
 }
