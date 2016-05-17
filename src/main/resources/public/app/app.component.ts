@@ -60,6 +60,5 @@ export class AppComponent {
     
     showPoll(poll : Poll) {
         this.currentPoll = poll;
-        console.log("here");
     }
 }
