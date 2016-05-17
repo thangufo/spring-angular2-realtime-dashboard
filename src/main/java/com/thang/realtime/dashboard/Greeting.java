@@ -1,4 +1,4 @@
-package com.thang;
+package com.thang.realtime.dashboard;
 
 public class Greeting {
 

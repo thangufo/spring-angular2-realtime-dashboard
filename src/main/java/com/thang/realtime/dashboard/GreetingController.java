@@ -1,4 +1,4 @@
-package com.thang;
+package com.thang.realtime.dashboard;
 
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
