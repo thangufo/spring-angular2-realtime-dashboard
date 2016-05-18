@@ -2,7 +2,7 @@ import {Component,Input} from '@angular/core';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
 import { Poll } from './domain/poll.domain';
 import { PollComponent } from './poll.component';
-import { Router,ROUTER_DIRECTIVES, Routes } from '@angular/router';
+ import { ROUTER_DIRECTIVES} from '@angular/router';
 
 declare var SockJS;
 declare var Stomp;
@@ -19,7 +19,7 @@ export class PollListComponent {
         this.polls = JSON.parse(message.body);
     };
 
-    constructor(public http: Http,private router: Router) {      
+    constructor(public http: Http) {      
         
     }
     

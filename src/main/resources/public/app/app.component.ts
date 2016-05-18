@@ -7,7 +7,8 @@ import { Router,ROUTER_DIRECTIVES, Routes } from '@angular/router';
 
 @Component({
     selector: 'my-app',
-    templateUrl: 'templates/index.html'
+    templateUrl: 'templates/index.html',
+    directives: [ROUTER_DIRECTIVES]
 })
 @Routes([
   {path: '/dashboard', component: DashboardComponent},
