@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author thangnguyen
  */
 @RestController
+@RequestMapping("/api")
 public class PollController {
     private SimpMessagingTemplate template;
     static ArrayList<Poll> polls;

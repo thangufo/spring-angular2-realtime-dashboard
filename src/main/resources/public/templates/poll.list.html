@@ -1,0 +1,8 @@
+<ul class="list-group">
+    <a href="javascript:void(0)" [ngClass]="{'active': currentPoll && poll.id == currentPoll.id}"
+        *ngFor="let poll of polls" class="list-group-item"  (click)="showPoll(poll)">
+        {{ poll.name }}
+    </a>
+</ul>
+
+<poll-form *ngIf="currentPoll" [poll]="currentPoll"></poll-form>

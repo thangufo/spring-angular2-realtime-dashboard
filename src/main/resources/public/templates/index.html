@@ -11,14 +11,9 @@
         </div>
         
         <div class="panel-body">
-            <ul class="list-group">
-                <a href="#" [ngClass]="{'active': currentPoll && poll.id == currentPoll.id}"
-                    *ngFor="let poll of polls" class="list-group-item"  (click)="showPoll(poll)">
-                    {{ poll.name }}
-                </a>
-            </ul>
             
-            <poll-form *ngIf="currentPoll" [poll]="currentPoll"></poll-form>
+            <router-outlet></router-outlet>
+            
         </div> <!-- End of panel body -->
     </div>
 </div>
