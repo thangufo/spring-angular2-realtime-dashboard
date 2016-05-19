@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.thang.realtime.dashboard;
 
 import com.thang.realtime.dashboard.dto.Poll
+import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -34,30 +30,41 @@ public class PollController {
     @Inject
     public PollController(SimpMessagingTemplate template) {
         this.template = template;
-        
+        initData();
+    }
+
+    def initData() {
         this.polls = [
             [
-                id: 1,
-                name: "Poll1",
+                id       : 1,
+                name     : "What is the best Rock band ?",
                 questions: [
-                    [id: 1, question: "Question 1"],
-                    [id: 2, question: "Question 2"]
+                    [id: 1, question: "Metallica"],
+                    [id: 2, question: "Guns N Roses"],
+                    [id: 3, question: "Queen"],
+                    [id: 4, question: "Other"]
                 ]
             ],
             [
-                id: 2,
-                name: "Poll 2",
+                id       : 2,
+                name     : "Which MVC framework do you like the most ?",
                 questions: [
-                    [id: 3, question: "Question 21"],
-                    [id: 4, question: "Question 22"]
+                    [id: 5, question: "Spring Boot/Spring MVC"],
+                    [id: 6, question: "Ruby on Rails"],
+                    [id: 7, question: "Django"],
+                    [id: 8, question: "Symfony (PHP)"],
+                    [id: 9, question: "Other"]
                 ]
             ],
             [
-                id: 3,
-                name: "Poll 3",
+                id       : 3,
+                name     : "Which is the best Javascript framework ?",
                 questions: [
-                    [id: 5, question: "Question 31"],
-                    [id: 6, question: "Question 32"]
+                    [id: 5, question: "Meteor"],
+                    [id: 6, question: "AngularJS 2"],
+                    [id: 6, question: "EmberJS"],
+                    [id: 6, question: "Backbone"],
+                    [id: 6, question: "Other"]
                 ]
             ]
         ];
@@ -65,6 +72,7 @@ public class PollController {
     
     @RequestMapping(value = "/poll", method = RequestMethod.GET)
     public Poll[] getPolls() {
+        initData();
         return this.polls;
     }
     
@@ -79,8 +87,6 @@ public class PollController {
 
         //refresh the poll list in all client
         template.convertAndSend("/queue/polls", this.polls);
-
-        println "Here"
     }
 
     @RequestMapping(value = "/poll/{id}",method = RequestMethod.PUT)
@@ -89,8 +95,9 @@ public class PollController {
         template.convertAndSend("/queue/polls", this.polls);
     }
 
-    @MessageMapping("/poll")
-    def Poll[] getPollList() {
-        return this.polls;
+    @MessageMapping("/selectPoll")
+    @SendTo("/queue/selectPoll")
+    def Poll getPollList(@Payload Poll poll) {
+        return poll
     }
 }

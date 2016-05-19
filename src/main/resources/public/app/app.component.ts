@@ -13,7 +13,7 @@ import { Router,ROUTER_DIRECTIVES, Routes } from '@angular/router';
 @Routes([
   {path: '/dashboard', component: DashboardComponent},
   {path: '/poll', component: PollListComponent},
-  {path: '*',        component: PollListComponent}
+  {path: '/',        component: PollListComponent}
 ])
 export class AppComponent {
     constructor(public http: Http,private router: Router) {

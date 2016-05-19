@@ -14,9 +14,14 @@ declare var Stomp;
 export class PollListComponent {
     polls: Poll[];
     currentPoll: Poll = null;
+    stompClient : any;
     
     stompPollCallback = (message) => {
         this.polls = JSON.parse(message.body);
+    };
+    
+    stompSelectPollCallback = (message) => {
+        this.currentPoll = JSON.parse(message.body);
     };
 
     constructor(public http: Http) {      
@@ -42,17 +47,19 @@ export class PollListComponent {
      */
     connect() {
         let socket : any = new SockJS('/message');
-        let stompClient : any = Stomp.over(socket);
+        this.stompClient = Stomp.over(socket);
         let stompConnect = (frame) => {
             let whoami : any = frame.headers['user-name'];
             //subscribe to /user/queue/polls if you only want messages for the current user
-            stompClient.subscribe('/queue/polls', this.stompPollCallback);
+            this.stompClient.subscribe('/queue/polls', this.stompPollCallback);
+            this.stompClient.subscribe('/queue/selectPoll', this.stompSelectPollCallback);
         }
         
-        stompClient.connect({}, stompConnect);
+        this.stompClient.connect({}, stompConnect);
     }
     
     showPoll(poll : Poll) {
-        this.currentPoll = poll;
+        //this.currentPoll = poll;
+        this.stompClient.send('/websocket/selectPoll',{},JSON.stringify(poll));
     }
 }
