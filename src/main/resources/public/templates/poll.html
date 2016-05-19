@@ -6,9 +6,10 @@
     </div>
     
     <div class="panel-body">
-        <div class="radio" *ngFor="let question of poll.questions">
+        <div class="radio" *ngFor="let choice of poll.choices">
             <label>
-                <input type="radio" name="optradio">{{ question.question }}
+                <input type="radio" name="optradio" [checked]="selectedChoice && choice.id == selectedChoice.id" 
+                    value="{{ choice.id }}" (click)="selectChoice(choice)">{{ choice.choice }}
             </label>
         </div>
         

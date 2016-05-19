@@ -1,7 +1,7 @@
-import { PollQuestion } from './poll.question.domain.ts';
+import { PollChoice } from './poll.choice.domain.ts';
 
 export class Poll {
     id: number;
     name: String;
-    questions : PollQuestion[];
+    choices : PollChoice[];
 }

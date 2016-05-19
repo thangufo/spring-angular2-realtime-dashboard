@@ -1,6 +1,7 @@
 package com.thang.realtime.dashboard;
 
 import com.thang.realtime.dashboard.dto.Poll
+import com.thang.realtime.dashboard.dto.PollChoice
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,33 +39,33 @@ public class PollController {
             [
                 id       : 1,
                 name     : "What is the best Rock band ?",
-                questions: [
-                    [id: 1, question: "Metallica"],
-                    [id: 2, question: "Guns N Roses"],
-                    [id: 3, question: "Queen"],
-                    [id: 4, question: "Other"]
+                choices: [
+                    [id: 1, choice: "Metallica"],
+                    [id: 2, choice: "Guns N Roses"],
+                    [id: 3, choice: "Queen"],
+                    [id: 4, choice: "Other"]
                 ]
             ],
             [
                 id       : 2,
                 name     : "Which MVC framework do you like the most ?",
-                questions: [
-                    [id: 5, question: "Spring Boot/Spring MVC"],
-                    [id: 6, question: "Ruby on Rails"],
-                    [id: 7, question: "Django"],
-                    [id: 8, question: "Symfony (PHP)"],
-                    [id: 9, question: "Other"]
+                choices: [
+                    [id: 5, choice: "Spring Boot/Spring MVC"],
+                    [id: 6, choice: "Ruby on Rails"],
+                    [id: 7, choice: "Django"],
+                    [id: 8, choice: "Symfony (PHP)"],
+                    [id: 9, choice: "Other"]
                 ]
             ],
             [
                 id       : 3,
                 name     : "Which is the best Javascript framework ?",
-                questions: [
-                    [id: 5, question: "Meteor"],
-                    [id: 6, question: "AngularJS 2"],
-                    [id: 6, question: "EmberJS"],
-                    [id: 6, question: "Backbone"],
-                    [id: 6, question: "Other"]
+                choices: [
+                    [id: 10, choice: "Meteor"],
+                    [id: 11, choice: "AngularJS 2"],
+                    [id: 12, choice: "EmberJS"],
+                    [id: 13, choice: "Backbone"],
+                    [id: 14, choice: "Other"]
                 ]
             ]
         ];
@@ -99,5 +100,11 @@ public class PollController {
     @SendTo("/queue/selectPoll")
     def Poll getPollList(@Payload Poll poll) {
         return poll
+    }
+
+    @MessageMapping("/selectChoice")
+    @SendTo("/queue/selectChoice")
+    def PollChoice selectPollChoice(@Payload PollChoice pollChoice) {
+        return pollChoice
     }
 }

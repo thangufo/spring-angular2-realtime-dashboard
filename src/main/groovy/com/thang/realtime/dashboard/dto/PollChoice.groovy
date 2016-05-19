@@ -10,7 +10,7 @@ package com.thang.realtime.dashboard.dto;
  * @author thangnguyen
  */
 @groovy.transform.Canonical
-public class PollQuestion {
+public class PollChoice {
     int id;
-    String question;
+    String choice;
 }

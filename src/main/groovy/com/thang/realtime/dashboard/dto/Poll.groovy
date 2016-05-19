@@ -15,5 +15,5 @@ import java.util.ArrayList;
 public class Poll {
     int id;
     String name;
-    ArrayList<PollQuestion> questions;
+    ArrayList<PollChoice> choices;
 }
