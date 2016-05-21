@@ -1,20 +1,16 @@
 package com.thang.realtime.dashboard;
 
-import com.thang.realtime.dashboard.dto.Poll
-import com.thang.realtime.dashboard.dto.PollChoice
+import com.thang.realtime.dashboard.domain.Poll
+import com.thang.realtime.dashboard.domain.PollChoice
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody
 
-import java.util.ArrayList;
 import javax.inject.Inject;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.messaging.simp.SimpMessagingTemplate
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,22 +72,16 @@ public class PollController {
         initData();
         return this.polls;
     }
-    
-    @RequestMapping(value = "/poll/{id}",method = RequestMethod.DELETE)
-    public void deletePoll(@PathVariable Long id) {
-        //delete the poll from the array (by id)
-        Closure query = {it.id == id};
-        int index = this.polls.findIndexOf(query);
-        if (index >= 0 ) {
-            this.polls.remove(index);
-        }
 
+
+    @RequestMapping(value = "/poll/{id:[\\d]+}",method = RequestMethod.PUT)
+    public void updatePoll(@PathVariable Long id, @RequestBody Poll input) {
         //refresh the poll list in all client
         template.convertAndSend("/queue/polls", this.polls);
     }
 
-    @RequestMapping(value = "/poll/{id}",method = RequestMethod.PUT)
-    public void updatePoll(@PathVariable Long id, @RequestBody Poll input) {
+    @RequestMapping(value = "/poll/{id}/submit",method = RequestMethod.POST)
+    public void submitPoll(@PathVariable Long id, @RequestBody PollChoice input) {
         //refresh the poll list in all client
         template.convertAndSend("/queue/polls", this.polls);
     }
