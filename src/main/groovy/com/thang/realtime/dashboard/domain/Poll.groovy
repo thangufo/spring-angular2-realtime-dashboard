@@ -5,21 +5,27 @@
  */
 package com.thang.realtime.dashboard.domain
 
+import javax.persistence.CascadeType
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.OneToMany
+import javax.persistence.OrderBy
 
 /**
  *
  * @author thangnguyen
  */
-@groovy.transform.Canonical
 @Entity
 public class Poll {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    int id;
+    Long id;
     String name;
-    ArrayList<PollChoice> choices;
+
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OrderBy("id ASC")
+    Set<PollChoice> choices;
 }

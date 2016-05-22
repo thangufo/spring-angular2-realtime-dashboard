@@ -1,8 +1,13 @@
-package com.thang.realtime.dashboard;
+package com.thang.realtime.dashboard.controller;
 
 import com.thang.realtime.dashboard.domain.Poll
+import com.thang.realtime.dashboard.domain.PollAnswer
 import com.thang.realtime.dashboard.domain.PollChoice
+import com.thang.realtime.dashboard.service.PollService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.Payload
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 
@@ -22,55 +27,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class PollController {
     private SimpMessagingTemplate template;
-    static ArrayList<Poll> polls;
+
+    @Autowired
+    private PollService pollService;
 
     @Inject
     public PollController(SimpMessagingTemplate template) {
         this.template = template;
-        initData();
-    }
-
-    def initData() {
-        this.polls = [
-            [
-                id       : 1,
-                name     : "What is the best Rock band ?",
-                choices: [
-                    [id: 1, choice: "Metallica"],
-                    [id: 2, choice: "Guns N Roses"],
-                    [id: 3, choice: "Queen"],
-                    [id: 4, choice: "Other"]
-                ]
-            ],
-            [
-                id       : 2,
-                name     : "Which MVC framework do you like the most ?",
-                choices: [
-                    [id: 5, choice: "Spring Boot/Spring MVC"],
-                    [id: 6, choice: "Ruby on Rails"],
-                    [id: 7, choice: "Django"],
-                    [id: 8, choice: "Symfony (PHP)"],
-                    [id: 9, choice: "Other"]
-                ]
-            ],
-            [
-                id       : 3,
-                name     : "Which is the best Javascript framework ?",
-                choices: [
-                    [id: 10, choice: "Meteor"],
-                    [id: 11, choice: "AngularJS 2"],
-                    [id: 12, choice: "EmberJS"],
-                    [id: 13, choice: "Backbone"],
-                    [id: 14, choice: "Other"]
-                ]
-            ]
-        ];
     }
     
     @RequestMapping(value = "/poll", method = RequestMethod.GET)
-    public Poll[] getPolls() {
-        initData();
-        return this.polls;
+    public Set<Poll> getPolls() {
+        Set<Poll> polls = pollService.findAll();
+        return polls;
     }
 
 
@@ -81,9 +50,16 @@ public class PollController {
     }
 
     @RequestMapping(value = "/poll/{id}/submit",method = RequestMethod.POST)
-    public void submitPoll(@PathVariable Long id, @RequestBody PollChoice input) {
+    public void submitPoll(@PathVariable Long id, @RequestBody PollChoice choice) {
+        Poll poll = pollService.findById(id);
+        PollAnswer answer = new PollAnswer();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        answer.setUser(auth.getPrincipal().getUsername())
+        answer.setPollChoice(choice)
+        pollService.savePollAnswer(answer)
+
         //refresh the poll list in all client
-        template.convertAndSend("/queue/polls", this.polls);
+        template.convertAndSend("/queue/answerSubmitted", answer);
     }
 
     @MessageMapping("/selectPoll")

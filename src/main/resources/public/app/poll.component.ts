@@ -1,5 +1,5 @@
 import {Component,Input} from '@angular/core';
-import {Http, HTTP_PROVIDERS} from '@angular/http';
+import {Http, HTTP_PROVIDERS,Headers} from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import { Poll } from './domain/poll.domain';
 import { PollChoice } from './domain/poll.choice.domain';
@@ -27,5 +27,17 @@ export class PollComponent {
     
     selectChoice(pollChoice : PollChoice) {
         this.stompClient.send('/websocket/selectChoice',{},JSON.stringify(pollChoice));
+    }
+    
+    submitPoll() {
+        var headers : Headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        
+        this.http.post("/api/poll/"+this.poll.id+"/submit",JSON.stringify(this.selectedChoice),{"headers": headers})
+        .subscribe(
+            res => {
+                let data = res.json();
+            }
+        );    
     }
 }
