@@ -19,7 +19,7 @@ CREATE TABLE poll_choice (
     ON UPDATE NO ACTION);
 
 CREATE TABLE poll_answer (
-  id INT NOT NULL,
+  id INT NOT NULL  AUTO_INCREMENT ,
   poll_choice_id INT NULL,
   user VARCHAR(45) NULL,
   PRIMARY KEY (id),

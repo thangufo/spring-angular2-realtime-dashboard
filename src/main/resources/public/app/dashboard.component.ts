@@ -8,8 +8,7 @@ import { Poll } from './domain/poll.domain';
 export class DashboardComponent {
     constructor(public http: Http) {
     }
-    
-    submitPoll() {
+    stompAnswerSubmittedCallback = (message) => {
         
-    }
+    };
 }

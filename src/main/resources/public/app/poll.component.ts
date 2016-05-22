@@ -16,7 +16,7 @@ export class PollComponent {
     stompSelectChoiceCallback = (message) => {
         this.selectedChoice = JSON.parse(message.body);
     };
-    
+
     constructor(public http: Http) {
     }
     
