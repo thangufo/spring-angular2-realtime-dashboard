@@ -3,7 +3,9 @@ package com.thang.realtime.dashboard.controller;
 import com.thang.realtime.dashboard.domain.Poll
 import com.thang.realtime.dashboard.domain.PollAnswer
 import com.thang.realtime.dashboard.domain.PollChoice
+import com.thang.realtime.dashboard.dto.PollStats
 import com.thang.realtime.dashboard.service.PollService
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.security.core.Authentication
@@ -42,6 +44,12 @@ public class PollController {
         return polls;
     }
 
+    @RequestMapping(value = "/poll/stats", method = RequestMethod.GET)
+    def ArrayList<PollStats> getPollStats() {
+        ArrayList<PollStats> stats = pollService.getPollStats();
+        return stats;
+    }
+
 
     @RequestMapping(value = "/poll/{id:[\\d]+}",method = RequestMethod.PUT)
     public void updatePoll(@PathVariable Long id, @RequestBody Poll input) {
@@ -58,7 +66,7 @@ public class PollController {
         answer.setPollChoice(choice)
         pollService.savePollAnswer(answer)
 
-        //refresh the poll list in all client
+        //refresh the data in the Dashboard
         template.convertAndSend("/queue/answerSubmitted", answer);
     }
 
