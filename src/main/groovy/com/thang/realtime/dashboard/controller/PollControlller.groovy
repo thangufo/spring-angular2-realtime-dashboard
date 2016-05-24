@@ -57,7 +57,7 @@ public class PollController {
         template.convertAndSend("/queue/polls", this.polls);
     }
 
-    @RequestMapping(value = "/poll/{id}/submit",method = RequestMethod.POST)
+    @RequestMapping(value = "/poll/{id:[\\d]+}/submit",method = RequestMethod.POST)
     public void submitPoll(@PathVariable Long id, @RequestBody PollChoice choice) {
         Poll poll = pollService.findById(id);
         PollAnswer answer = new PollAnswer();
@@ -67,7 +67,8 @@ public class PollController {
         pollService.savePollAnswer(answer)
 
         //refresh the data in the Dashboard
-        template.convertAndSend("/queue/answerSubmitted", answer);
+        ArrayList<PollStats> stats = pollService.getPollStats();
+        template.convertAndSend("/queue/answerSubmitted", stats);
     }
 
     @MessageMapping("/selectPoll")

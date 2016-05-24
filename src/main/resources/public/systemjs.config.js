@@ -9,6 +9,7 @@
     '@angular':                   'node_modules/@angular', // sufficient if we didn't pin the version
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api', // get latest
     'rxjs':                       'node_modules/rxjs',
+    'ng2-nvd3':                   'node_modules/ng2-nvd3/build/lib/ng2-nvd3.js',
     'ts':                         'node_modules/plugin-typescript/lib/plugin.js',
     'typescript':                 'node_modules/typescript/lib/typescript.js',
  };
