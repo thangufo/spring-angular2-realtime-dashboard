@@ -52,12 +52,6 @@ public class PollController {
     }
 
 
-    @RequestMapping(value = "/poll/{id:[\\d]+}",method = RequestMethod.PUT)
-    public void updatePoll(@PathVariable Long id, @RequestBody Poll input) {
-        //refresh the poll list in all client
-        template.convertAndSend("/queue/polls", this.polls);
-    }
-
     @RequestMapping(value = "/poll/{id:[\\d]+}/submit",method = RequestMethod.POST)
     public void submitPoll(@PathVariable Long id, @RequestBody PollChoice choice) {
         Poll poll = pollService.findById(id);
