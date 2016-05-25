@@ -5,7 +5,7 @@ import com.thang.realtime.dashboard.domain.PollAnswer
 import com.thang.realtime.dashboard.domain.PollChoice
 import com.thang.realtime.dashboard.dto.PollStats
 import com.thang.realtime.dashboard.service.PollService
-
+import groovy.transform.CompileStatic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.security.core.Authentication
@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
+@CompileStatic
 public class PollController {
     private SimpMessagingTemplate template;
 
@@ -40,7 +41,7 @@ public class PollController {
     
     @RequestMapping(value = "/poll", method = RequestMethod.GET)
     public Set<Poll> getPolls() {
-        Set<Poll> polls = pollService.findAll();
+        Set<Poll> polls = (Set<Poll>) pollService.findAll();
         return polls;
     }
 
@@ -62,7 +63,7 @@ public class PollController {
         Poll poll = pollService.findById(id);
         PollAnswer answer = new PollAnswer();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        answer.setUser(auth.getPrincipal().getUsername())
+        answer.setUser(auth.getName());
         answer.setPollChoice(choice)
         pollService.savePollAnswer(answer)
 
